@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/common/head :: adminHead">
+    <meta charset="UTF-8">
+    <title>권한 목록</title>
+</head>
+<body>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+    });
+</script>
+<div th:replace="admin/common/top :: header"></div>
+<div class="mainContainer">
+    <div class="cc-tab-con">
+        <a href="javascript:tabChange('1');" class="cc-tab-item">사용자관리</a>
+        <a href="javascript:void(0);" class="cc-tab-item on">권한관리</a>
+        <a href="javascript:tabChange('3');" class="cc-tab-item">리소스관리</a>
+    </div>
+
+    <div class="btn-wrp">
+        <a class="btn btn-dark btn-lg" id="new-button" th:href="@{/admin/roles/register}">등록</a>
+    </div>
+    <table class="table table-hover" style="margin-top: 10px;">
+        <thead>
+        <tr class="table-info">
+            <th scope="col">권한명</th>
+            <th scope="col">권한설명</th>
+            <th scope="col">수정</th>
+            <th scope="col">삭제</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="role : ${roleList}">
+            <td style="text-align: left;" th:text="${role.roleName}"></td>
+            <td style="text-align: left;" th:text="${role.description}"></td>
+            <td><a class="btn btn-dark btn-lg" th:href="@{/admin/roles/{id}/edit(id=${role.id})}">수정</a></td>
+            <td><a class="btn btn-danger btn-lg" th:href="@{/admin/roles/{id}/delete(id=${role.id})}">삭제</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

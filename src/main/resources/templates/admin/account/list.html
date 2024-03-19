@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/common/head :: adminHead">
+    <title>사용자 관리</title>
+</head>
+<body>
+    <div th:replace="admin/common/top :: header"></div>
+    <div id="mainContainer">
+        <div class="cc-tab-con">
+            <a href="javascript:void(0);" class="cc-tab-item on">사용자관리</a>
+            <a href="javascript:tabChange('2');" class="cc-tab-item">권한관리</a>
+            <a href="javascript:tabChange('3');" class="cc-tab-item">리소스관리</a>
+        </div>
+        <div>
+            <table class="table">
+                <thead>
+                    <tr class="table-info">
+                        <th scope="col">이름</th>
+                        <th scope="col">이메일</th>
+                        <th scope="col">권한</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="btn-link hover" th:each="account : ${accounts}" >
+                        <td style="text-align: left;">
+                            <a th:href="@{'/admin/accounts/' + ${account.id}}"><span th:text="${account.username}">회원</span></a>
+                        </td>
+                        <td style="text-align: left;" th:text="${account.email}"></td>
+                        <td style="text-align: left;">
+                            <span th:each="role : ${account.roles}">
+                                <h6 th:text="${role.roleName}"></h6>
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</body>
+</html>

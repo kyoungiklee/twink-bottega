@@ -1,0 +1,70 @@
+spring:
+  profiles:
+    group:
+      local: local, common
+      test: test, common
+      development: dev, common
+      staging: stg, common
+      production: prod, common
+    default:
+        - local
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:postgresql://localhost:5432/springsecuritydb
+    username: study
+    password: study
+
+---
+spring:
+  config:
+    activate:
+      on-profile: test
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    check-template-location: true
+    mode: HTML
+    cache: false
+    template-resolver-order: 0
+  datasource:
+    url: jdbc:h2:mem:springsecuritydb
+    username: SA
+    password:
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+
+---
+server:
+  port: 8080
+spring:
+  config:
+    activate:
+      on-profile: common
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+        jdbc:
+          lob:
+            non_contextual_creation: true
+  thymeleaf:
+    cache: false
+  devtools:
+    livereload:
+      enabled: true
+    restart:
+      enabled: true
+  main:
+    allow-bean-definition-overriding: true
+
+

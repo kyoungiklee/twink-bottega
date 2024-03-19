@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/common/head :: adminHead">
+    <meta charset="UTF-8">
+    <title>사용자 상세</title>
+</head>
+<body>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+    });
+</script>
+<div th:replace="admin/common/top :: header"></div>
+<div class="mainContainer">
+    <div class="cc-tab-con">
+        <a href="javascript:void(0);" class="cc-tab-item on">사용자관리</a>
+        <a href="javascript:tabChange('2');" class="cc-tab-item">권한관리</a>
+        <a href="javascript:tabChange('3');" class="cc-tab-item">리소스관리</a>
+    </div>
+    <div class="tbl-wrp">
+        <form class="form-horizontal"  th:action="@{/admin/accounts}" method="post" th:object="${account}">
+            <input type="hidden" name="id" th:value="*{id}">
+            <div class="form-group">
+                <label th:for="username" class="col-sm-2 control-label">이름</label>
+                <div>
+                    <input type="text" class="form-control" id="username" th:field="*{username}" th:placeholder="이름" readonly/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label th:for="email" class="col-sm-2 control-label">이메일</label>
+                <div>
+                    <input type="text" id="email" class="form-control" th:field="*{email}" readonly/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label th:for="password" class="col-sm-2 control-label">패스워드</label>
+                <div>
+                    <input type="text" class="form-control" id="password" th:field="*{password}" readonly/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label th:for="roles" class="col-sm-2 control-label">권한</label>
+                <div class="col-sm-10" th:each="role : ${roleList}">
+                    <input type="checkbox" id="roles" name="roles" th:id="roles- + ${role.id}"
+                           th:text="${role.roleName}"
+                           th:value="${role.roleName}"
+                           th:checked="${userRoleNames.contains(role.roleName)} ? true : false" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="offset-sm-1 col-sm-10">
+                    <button type="submit" class="btn btn-dark btn-lg">등록</button>
+                    <a class="btn btn-dark btn-lg" style="margin: 10px;" th:href="@{/admin/accounts}">목록</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

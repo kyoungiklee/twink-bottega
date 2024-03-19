@@ -1,0 +1,24 @@
+### send Post request with body as parameters
+POST http://localhost:8080/api/login
+Content-Type: application/json
+X-Requested-With: XMLHttpRequest
+
+{
+  "username": "mail+1@gmail.com",
+  "password": "1111"
+}
+
+### send Post request with body as parameters
+POST http://localhost:8080/api/login
+Content-Type: application/json
+x-requested-with: XMLHttpRequest
+
+{
+  "username": "mail+2@gmail.com",
+  "password": "1111"
+}
+
+### send Post request with body as parameters
+GET http://localhost:8080/api/messages
+Content-Type: application/json
+x-requested-with: XMLHttpRequest

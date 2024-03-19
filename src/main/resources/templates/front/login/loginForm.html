@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<!--csrf를 값을 ajax에서 가져오기 위한 meta값 설정-->
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}" />
+<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}" />
+
+<head th:replace="~{layout/header :: userHead}">
+    <meta charset="UTF-8">
+    <title>로그인 폼</title>
+</head>
+<script>
+    function formLogin(e) {
+        let username = $("input[name='username']").val().trim();
+        let password = $("input[name='password']").val().trim();
+        let data = {"username": username, "password": password};
+
+        let csrfHeader = $("meta[name='_csrf_header']").attr('content');
+        let csrfToken = $("meta[name='_csrf']").attr('content');
+
+        $.ajax({
+            type: "POST",
+            url: "/api/login",
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(csrfHeader, csrfToken);
+                xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest")
+                xhr.setRequestHeader("Content-type", "application/json")
+            },
+            success: function (response) {
+                console.log(response)
+                location.href = "/"
+            },
+            error: function (response, status, error) {
+                console.log();
+                window.location.href = "/login?error=true&exception=" + response.responseJSON.message;
+            }
+        });
+    }
+</script>
+<body>
+<div th:replace="~{layout/top :: header}"></div>
+<div class="container text-center"></div>
+<div class="login-form d-flex justify-content-center">
+    <div class="col-sm-5" style="margin-top: 30px;">
+        <div class="panel">
+            <p>아이디와 비밀번호를 입력해주세요</p>
+        </div>
+        <div th:if="${param.error}" class="form-group">
+            <span th:text="${exception}" class="alert alert-danger">로그인에 실패하였습니다</span>
+        </div>
+        <form th:action="@{/login_process}" class="form-signin" method="post">
+            <input th:type="hidden" th:value="secret" name="secret_key">
+            <div class="form-group">
+                <label for="username" class="sr-only">이메일</label>
+                <input type="text" class="form-control" id="username" name="username" placeholder="example@mail.com" required autofocus>
+            </div>
+            <div class="form-group">
+                <label for="password" class="sr-only">비밀번호</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="비밀번호" required>
+
+            </div>
+            <div th:type="toolbarButtonGraphics" class="form-group">
+                <button type="button" id="submit" class="btn btn-lg btn-primary btn-block" onclick="formLogin(this)">로그인</button>
+<!--                <button class="btn btn-lg btn-primary btn-block" type="submit">로그인</button>-->
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
